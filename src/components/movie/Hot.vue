@@ -2,11 +2,11 @@
    <div class="t-c hot-movie">
                <swipe></swipe>
                <div v-for='(item,key) in movieList' class="movie-list">
-                   <div @click='movieProjectData(item)' class="movie-list-item">
+                   <div class="movie-list-item">
                       <div class="movie-img-box">
                           <img class="movie-img" :src="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
                       </div>
-                      <div class="movie-item">
+                      <div @click='movieProjectData(item)' class="movie-item">
                           <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
                           <p class="movie-star-box overflow-text"><star class='movie-star' :score='item.remark'></star><span class="movie-score">{{item.remark}}</span></p>
                           <p class="movie-director overflow-text">导演 ：{{item.director}} </p>
@@ -18,21 +18,25 @@
                       <div v-if='item.soldType == "NORMAL"' class="buy-btn">购票</div>
                       <div v-if='item.soldType == "PRE"' class="buy-btn btn-advance">预售</div>
                    </div>
-                    <p class="movie-activities" v-if='!!item.activities'>
-                    <template v-if='!!item.activities[0].activityExtTagMap.APP_CINEMA'>
-                        <span class='activityExtTagMap'>{{item.activities[0].activityExtTagMap.APP_CINEMA}}</span>
+                    <p @click='activitiesDetailShow(item.activities)' class="movie-activities overflow-text" v-if='!!item.activities'>
+                    <template v-if='!!item.activities[0].activityTag'>
+                        <span class='activityExtTagMap'>{{item.activities[0].activityTag}}</span>
                         <span class="activities_line">|</span>
+                        <span class="activityTitle">{{item.activities[0].activityTitle}}</span>
                     </template>
-                    <span class="activityTitle">{{item.activities[0].activityTitle}}</span>
                     </p>
                </div>
                <transition name='move'>
                   <detail v-show='detailShow' :movieProject='movieProject'></detail>
               </transition>
+               <transition name='move'>
+                  <activities v-show='activitiesShow' :activitiesTxt='activitiesTxt'></activities>
+              </transition>
           </div>
 </template>
 <script>
   import detail from '@/components/movie/detail';
+  import activities from '@/components/movie/activities';
   import swipe from "@/components/swipe/swipe";
   import star from '@/components/star/star';
   export default {
@@ -41,6 +45,8 @@
            movieList : '',
            movieProject : '',
            detailShow : false,
+           activitiesTxt : "",
+           activitiesShow :false,
         }
       },
       created(){
@@ -51,14 +57,19 @@
               console.log(this.movieList)
             }
           });
+
       },
       methods:{
          movieProjectData(data){
            this.detailShow = true;
            this.movieProject = data;
+        },
+        activitiesDetailShow(data){
+          this.activitiesTxt = data;
+          this.activitiesShow = true;
         }
       },
-      components:{swipe,star,detail},
+      components:{swipe,star,detail,activities},
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -117,9 +128,11 @@
         line-height:36px;
         border-top:1px solid #e1e1e1;
         font-size:0.7rem;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        white-space: nowrap;
+        padding-right:20px;
+        margin-right:15px;
+        box-sizing:border-box;
+        background:url('img/right.png') no-repeat right center;
+        background-size:12px auto;
         .activityExtTagMap
             color:#fea54c;
         .activities_line

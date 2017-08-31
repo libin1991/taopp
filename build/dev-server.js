@@ -24,8 +24,10 @@ var app = express()
 
 var appData = require('../data.json'); //引入json文件
 var appBegin = require('../begin.json'); //引入json文件
+var appCinema = require('../cinema.json'); //引入json文件
 var data = appData.data;//接口一
 var begin = appBegin.data;//接口二
+var cinema = appCinema.data;//接口三
 // 定义路由
 var apiRoutes = express.Router();
 // seller借口的读取数据
@@ -39,6 +41,12 @@ apiRoutes.get('/begin',function(req,res){
     data : begin
   });
 });
+apiRoutes.get('/cinema',function(req,res){
+  res.json({
+    data : cinema
+  });
+});
+
 
 app.use('/api',apiRoutes);//注册路由
 

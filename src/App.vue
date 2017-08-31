@@ -30,6 +30,7 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x:hidden;
 }
 .app-footer{
   font-size: 0;

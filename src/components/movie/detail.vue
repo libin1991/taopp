@@ -1,10 +1,11 @@
 <template>
-	<div id="detail" class="detail remove-nav">
+	<div id="detail" class="detail remove-nav" v-if='!!movieProject'>
+		<headerTemplate close='detailShow' :isActive='true' :title='movieProject.showName'></headerTemplate>
 		<div class="detail-msg">
 			<div class="detail-msg-info">
 				<img v-if='!!movieProject.poster' class="detail-msg-img" :src="'//gw.alicdn.com/'+movieProject.poster+'_400x400Q30s150.jpg'" alt="">
 				<div class="detail-msg-box">
-					<p class="showName"><span class="showName-title">{{movieProject.showName}}</span><span class="showName-icon" v-if='!!movieProject.showMark'>{{movieProject.showMark}}</span></p>
+					<p class="showName  overflow-text"><span v-if='!!movieProject.showName' class="showName-title">{{description(movieProject.showName,6)}}</span><span class="showName-icon" v-if='!!movieProject.showMark'>{{movieProject.showMark}}</span></p>
 					<p class="showNameEn">{{movieProject.showNameEn}}</p>
 					<ul class="movie-msg">
 						<li>{{movieProject.type}}</li>
@@ -34,11 +35,37 @@
                 </ul>
             </div>
 		</div>
+		<_line></_line>
+		<div class="movie-artist-list">
+			<p class="movie-artist-title">票房</p>
+			<div class="clearfix">
+				<div class="left weekCount">
+					<p class="count">暂无</p>
+					<p class="wan">首周票房(万)</p>
+				</div>
+				<div class="left allCount">
+					<p class="count">暂无</p>
+					<p class="wan">累计票房(万)</p>
+				</div>
+			</div>
+			<p class="house-btn">查看票房详情</p>
+		</div>
+		<_line></_line>
+		<div class="movie-artist-list">
+			<p class="movie-artist-title">热门影评</p>
+			<p class="null">暂无</p>
+			<p class="hotWan">因json没有数据</p>
+		</div>
+		<_line></_line>
+		<div class="buy-p">
+			选座购票
+		</div>
 	</div>
 </template>
 <script>
 	import BScroll from 'better-scroll';
 	import _line from '@/components/line/line';
+	import headerTemplate from '@/components/header/header';
 	export default{
 		data(){
 			return {
@@ -89,7 +116,7 @@
 	    updated(){
 	      this._initPic();
 	    },
-		components:{_line},
+		components:{_line,headerTemplate},
 	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -102,6 +129,8 @@
 		top:0;
 		background:#fff;
 		overflow:auto;
+		padding-top:2.5rem;
+		z-index:11;
 		.detail-msg
 			position:relative;
 			background:#333;
@@ -191,4 +220,29 @@
 	            }
 	          }
 		}
+		.weekCount,.allCount
+			width:50%;
+			.count	
+				font-size:1.5rem;
+			.wan
+				margin-top:10px;
+		.house-btn
+			text-align:center;
+			color:$color;
+			font-size:1rem;
+			padding:1.2rem 0;
+		.null
+			font-size:1.5rem;
+		.hotWan
+			padding:1.2rem 0;
+		.buy-p
+			background:$red;
+			height:51px;
+			line-height:51px;
+			color:#fff;
+			position:fixed;
+			left:0;
+			bottom:0;
+			width:100%;
+			font-size:1.2rem;
 </style>

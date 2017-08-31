@@ -3,12 +3,12 @@
         <template v-for='dateTime in removal'>
             <p class="movie-date"><span class="dateTime">{{dateTime}}</span><span class="dateWeek">{{dateTime | getWeek}}</span></p>
             <div class="movie-begin" v-for='item in movieList2' v-if='dateTime == item.openTime'>
-             <div @click='movieProjectData(item)' class="movie-list">
+             <div class="movie-list">
                  <div class="movie-list-item">
                     <div class="movie-img-box">
                         <img class="movie-img" :src="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
                     </div>
-                    <div class="movie-item">
+                    <div @click='movieProjectData(item)' class="movie-item">
                         <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
                         <p class="movie-wantCount overflow-text">{{item.wantCount}}人想看</p>
                         <p class="movie-director overflow-text">导演 ：{{item.director}} </p>

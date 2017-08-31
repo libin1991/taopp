@@ -1,5 +1,11 @@
 <template>
-<div class="selectCity">
+<div class="left">
+    <img class="left logo" src="./img/logo.png" alt="">
+    <div class="left movie-localtion overflow-text" @click='showSelect()'>
+      {{localtion}}
+    </div>
+     <transition name='move'>
+     <div class="selectCity" v-show='isSelect'>
 	<!--显示点击的是哪一个字母-->
 <div ref='showKey' id="showKey" class="showLetter"><span ref='showLetter' id="showLetter">A</span></div>
 <!--城市索引查询-->
@@ -465,15 +471,26 @@
     </div>
   </div>
 </div>
+</div>  
+</transition>
 </div>
 </template>
 <script>
 	export default{
+    data(){
+      return{
+        localtion:'北京',
+        isSelect : false,
+      }
+    },
 		methods : {
 			selectEvent(event){
-				this.$parent.localtion = event.target.innerHTML;
-				this.$parent.isSelect = false;
+				this.localtion = event.target.innerHTML;
+				this.isSelect = false;
 			},
+      showSelect(){
+          this.isSelect = true;
+      },
 			selectKey(event){
 				var s = event.target.innerHTML;
 				this.$refs.showLetter.innerHTML = s;
@@ -487,6 +504,25 @@
 	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+@import '../../common/css/transition.styl';
+
+.logo
+  padding:2px;
+  height:22px;
+  width:22px;
+  border-radius:4px;
+  background:#90B4FC;
+  margin:7px 15px;
+.movie-localtion{
+    max-width:70px;
+    display:inline-block;
+    line-height:40px;
+    padding-right:18px;
+    background:url('./img/down.png') no-repeat right center;
+    background-size:12px auto;
+    color:$color;
+}
+
 body,div,dl,dt,dd,ul,li,form,input,button,h1,h2,h3,h4,h5,h6,p{margin: 0 auto;padding:0;font-family:"微软雅黑";color:#00C7C7}
 ul,li,dl,dt,dd{display:block;list-style:none;}
 a{text-decoration:none;outline:none;}
